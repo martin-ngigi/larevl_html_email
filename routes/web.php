@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MailController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('emails.index');
+});
+
+///emails
+// Route::get('/send-email', [MailController::class, 'sendEmail']);
+///
+Route::post('/post-email-data', [MailController::class, 'sendEmail']);
+
+
+// clear cache
+// THIS WILL SOLVE ERROR: There is no existing directory at /storage/logs and its not buildable: Permission denied
+Route::get('/reset', function (){
+    Artisan::call('route:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
 });
